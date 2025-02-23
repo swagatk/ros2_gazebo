@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<gz version='1.0'>
+  <executable name='sensor-world'>
+    <command>gz sim robot_world.sdf</command>
+  </executable>
+
+  <executable name='lidar_node'>
+    <command>./lidar_node/build/lidar_node</command>
+  </executable>
+
+</gz>
