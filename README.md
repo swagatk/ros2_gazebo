@@ -10,3 +10,5 @@ ROS2 Gazebo experiments
 
 - folder: `gz_robot`
 
+## Mapping & SLAM toolbox
+- folder: `my_robot_sim`
