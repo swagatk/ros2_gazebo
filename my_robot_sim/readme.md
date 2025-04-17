@@ -46,7 +46,8 @@ Install the following packages if `rosdep install` does not resolve the dependen
 sudo apt install ros-jazzy-xacro
 sudo apt install ros-jazzy-sdformat-urdf
 sudo apt install ros-jazzy-ros-gz
-sudo apt install ros-<ros2-distro>-gazebo-ros-pkgs
+sudo apt install ros-<ros2-jazzy-gazebo-ros-pkgs
+sudo apt install ros-jazzy-robot-localization
 
 ```
 ## Launch SLAM toolbox
@@ -59,7 +60,7 @@ Now execute the following command in a separate terminal:
 ```
 ros2 launch slam_toolbox online_async_launch.py use_sim_time:=true
 ```
-### Launch Nav2
+## Launch Nav2
 
 Install `nav2` packages:
 ```
@@ -68,5 +69,28 @@ sudo apt install ros-jazzy-nav2-bringup
 ```
 Now execute the following command in a separate terminal: 
 ```
-ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true param_files:=/home/swagat/ros2_ws/my_robot_sim/config/nav2_params.yaml
 ```
+
+## Move the robot 
+Run the following node in a separate terminal to allow moving the robot using keyboard:
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true --remap cmd_vel:=/demo/cmd_vel
+```
+
+## RVIZ visualization
+Add the following `display type` items to Rviz to visualize the map etc. 
+* Add --> Map --> /global_costmap/costmap
+* Add --> LaserScan --> /scan
+* Add --> Odometry --> /demo/odom
+
+Also change `Fixed Frame` item in `Global Options` to `map` to visualize ths formation of map as the robot moves. 
+
+## Images
+Gazebo environment and the map generated is as shown below
+
+Gazebo Environment with Robot
+![Gazebo Environment ](./images/gazebo_environment.png) 
+
+Map Generated using `slam_toolbox`
+![Map Generated](./images/slam_map_teleop.png)|
