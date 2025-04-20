@@ -7,6 +7,11 @@
   <maintainer email="swagat.kumar@gmail.com">swagat</maintainer>
   <license>TODO: License declaration</license>
 
+  <!-- Dependencies for avoid_obstacle node -->
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>rviz</exec_depend>
   <exec_depend>xacro</exec_depend>

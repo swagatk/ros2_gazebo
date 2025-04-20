@@ -46,7 +46,7 @@ Install the following packages if `rosdep install` does not resolve the dependen
 sudo apt install ros-jazzy-xacro
 sudo apt install ros-jazzy-sdformat-urdf
 sudo apt install ros-jazzy-ros-gz
-sudo apt install ros-<ros2-jazzy-gazebo-ros-pkgs
+sudo apt install ros-jazzy-gazebo-ros-pkgs
 sudo apt install ros-jazzy-robot-localization
 
 ```
@@ -75,7 +75,7 @@ ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true param_files:=/h
 ## Move the robot 
 Run the following node in a separate terminal to allow moving the robot using keyboard:
 ```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true --remap cmd_vel:=/demo/cmd_vel
+ros2 run teleop_twist_keyboard teleop_twist_keyboard cmd_vel:=/demo/cmd_vel
 ```
 
 ## RVIZ visualization
@@ -84,7 +84,7 @@ Add the following `display type` items to Rviz to visualize the map etc.
 * Add --> LaserScan --> /scan
 * Add --> Odometry --> /demo/odom
 
-Also change `Fixed Frame` item in `Global Options` to `map` to visualize ths formation of map as the robot moves. 
+Also change `Fixed Frame` item in `Global Options` to `map` to visualize the formation of map as the robot moves. 
 
 ## Images
 Gazebo environment and the map generated is as shown below
@@ -94,3 +94,16 @@ Gazebo Environment with Robot
 
 Map Generated using `slam_toolbox`
 ![Map Generated](./images/slam_map_teleop.png)|
+
+## Obstacle avoidance
+Run the following node on a separate terminal to make the robot move autonomously avoiding obstacles.
+
+```
+ros2 run my_robot_sim avoid_obstacle
+```
+
+## Wall following 
+
+```
+ros2 run my_robot_sim follow_wall
+```

@@ -37,6 +37,18 @@ Visualization Manager:
       Show Arrows: true
       Show Axes: true
       Show Names: true
+    - Class: rviz_default_plugins/LaserScan
+      Enabled: true
+      Name: LaserScan
+      Topic: /scan
+      Queue Size: 10
+      Color: 255; 0; 0
+      Size (m): 0.03
+    - Class: rviz_default_plugins/Odometry
+      Enabled: true
+      Name: Odometry
+      Topic: /demo/odom
+      Keep: 100
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

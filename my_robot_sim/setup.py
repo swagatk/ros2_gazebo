@@ -34,6 +34,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'avoid_obstacle = my_robot_sim.avoid_obstacle:main',
+            'follow_wall = my_robot_sim.follow_wall:main',
         ],
     },
 )
