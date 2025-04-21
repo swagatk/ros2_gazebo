@@ -103,7 +103,10 @@ ros2 run my_robot_sim avoid_obstacle
 ```
 
 ## Wall following 
-
+Run the following node in a separate terminal to make the robot follow the wall. 
 ```
 ros2 run my_robot_sim follow_wall
 ```
+The resulting map generated is shown in the following image
+
+![Map with wall following](./images/slam_wall_follow.png)
