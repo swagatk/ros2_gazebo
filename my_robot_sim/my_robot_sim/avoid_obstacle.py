@@ -2,6 +2,8 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
+import time
+import random
 
 
 class AvoidObstacleNode(Node):
@@ -20,7 +22,7 @@ class AvoidObstacleNode(Node):
         )
 
         # Threshold distance to stop the robot
-        self.obstacle_distance_threshold = 0.5  # meters
+        self.obstacle_distance_threshold = 1.0  # meters
 
         self.get_logger().info("AvoidObstacleNode has been started.")
 
@@ -37,25 +39,26 @@ class AvoidObstacleNode(Node):
         right = min(ranges[2 * num_ranges // 3:])  # Right third of the scan
 
         self.get_logger().info(f"Sensor readings: {left}, {front}, {right}")
-        # Check for obstacles in front
+
         if left < self.obstacle_distance_threshold or \
                 front < self.obstacle_distance_threshold and \
-                right > self.obstacle_distance_threshold:
-                self.get_logger().warn("Obstacle detected on the left side!, turning right")
-                self.turn_right()
+                right > self.obstacle_distance_threshold: # obstacle on left
+            self.get_logger().warn(f"Obstacle detected on left side!, turning right")
+            self.turn_right(min=0.2, max=1.0)
         elif right < self.obstacle_distance_threshold or \
                 front < self.obstacle_distance_threshold and \
-                left > self.obstacle_distance_threshold: 
-                self.get_logger().warn("obstacle on right side, turning left")
-                self.turn_left()
+                left > self.obstacle_distance_threshold:  # obstacle on right
+            self.get_logger().warn(f"obstacle on right side, turning left")
+            self.turn_left(min=0.5, max=1.5)
         elif left < self.obstacle_distance_threshold and \
                 front < self.obstacle_distance_threshold and \
                 right < self.obstacle_distance_threshold:
-            self.get_logger().warn("Obstacle detected in front!, stopping")
-            self.turn_right()
+                self.get_logger().warn(f"Stuck in a corner. Move back and turn right")
+                self.move_backward()
+                self.turn_right(min=0.7, max=2.0) 
         else: # no obstacles detected
             self.move_forward()
-    
+
 
     def stop_robot(self):
         # Publish zero velocity to stop the robot
@@ -67,15 +70,22 @@ class AvoidObstacleNode(Node):
         self.current_twist.linear.x = 0.7  # Move forward at 0.2 m/s
         self.current_twist.angular.z = 0.0
 
-    def turn_left(self):
+    def turn_left(self, min=0.2, max=1.5):
+        speed = random.uniform(min, max)
         # Turn left by setting a positive angular velocity
         self.current_twist.linear.x = 0.0
-        self.current_twist.angular.z = 0.5  # Turn left at 0.5 rad/s
+        self.current_twist.angular.z = -1.0 * speed  # Turn left at 0.5 rad/s
 
-    def turn_right(self):
+    def turn_right(self, min=0.2, max=1.5):
+        speed = random.uniform(min, max)
         # Turn right by setting a negative angular velocity
         self.current_twist.linear.x = 0.0
-        self.current_twist.angular.z = -0.5  # Turn right at 0.5 rad/s
+        self.current_twist.angular.z = speed  # Turn right at 0.5 rad/s
+
+    def move_backward(self):
+        # Move backward by setting a negative linear velocity
+        self.current_twist.linear.x = -0.5
+        self.current_twist.angular.z = 0.0
 
 
     def publish_velocity(self):

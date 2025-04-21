@@ -32,6 +32,10 @@ class WallFollowingNode(Node):
         self.get_logger().info("WallFollowingNode has been started.")
 
         self.start_time = time.time()
+        self.start2 = time.time()
+        self.start3 = time.time()
+        self.start4 = time.time()
+        self.left_flag = False
 
     def scan_callback(self, msg):
         # Divide the LaserScan data into three regions: left, front, and right
@@ -47,65 +51,80 @@ class WallFollowingNode(Node):
         if left < self.wall_distance and \
                 front < self.front_obstacle_threshold and \
                 right < self.wall_distance:
-                self.get_logger().warn("Obstacle detected in front and too close to the wall! moving backward.")
+            end = time.time()
+            elapsed_time = end - self.start2
+            if elapsed_time < 10:
+                self.get_logger().warn(f"Obstacle detected on left, front & right: {elapsed_time}")
                 self.move_backward()
+                self.turn_right()
+            else:
+                self.start2 = time.time()
         elif left < self.wall_distance and \
                 front < self.front_obstacle_threshold and \
                     right > self.wall_distance:
-            # Obstacle detected in front and too close to the wall on the left
-            self.get_logger().warn("Obstacle detected in front and too close to the wall on the left! Adjust right.")
-            self.adjust_right()
+            end = time.time()
+            elapsed_time = end - self.start3
+            if elapsed_time < 10:
+                self.get_logger().warn(f"Obstacle detected on front-left! moving right: {elapsed_time}")
+                self.turn_right()
+            else:
+                self.start3 = time.time() # reset the timer
         elif left > self.wall_distance and \
                 front < self.front_obstacle_threshold and \
                     right < self.wall_distance:
-            # Obstacle detected in front and too close to the wall on the right
-            self.get_logger().warn("Obstacle detected in front and too close to the wall on the right! Adjust left.")
+            end = time.time()
+            elapsed_time = end - self.start4
+            if elapsed_time < 10:
+                self.get_logger().warn(f"Obstacle detected on front-right! moving left: {elapsed_time}")
+                self.turn_left() 
+            else:
+                self.start4 = time.time()
+        elif left < self.wall_distance and \
+                front > self.front_obstacle_threshold and \
+                    right > self.wall_distance:
+            # Obstacle detected on the left and too far from the wall on the right
+            self.get_logger().warn("Obstacle detected on left. Adjust right.")
+            self.adjust_right()
+        elif  left > self.wall_distance and \
+                front > self.front_obstacle_threshold and \
+                    right < self.wall_distance:
+            # Obstacle detected on the right and too far from the wall on the left
+            self.get_logger().warn("Obstacle detected on right. Adjust left.")
             self.adjust_left()
+        elif left < self.wall_distance and \
+                front > self.front_obstacle_threshold and \
+                    right < self.wall_distance:
+            # Obstacle detected on left and right. move forward
+            self.get_logger().warn("Obstacle detected on left and right. Move forward.")
+            self.move_forward()
         elif left > self.wall_distance and \
                 front < self.front_obstacle_threshold and \
                     right > self.wall_distance:
             # Obstacle detected in front and too far from the wall on the left
             end = time.time()
             elapsed_time = end - self.start_time
-            if elapsed_time < 50:
-                self.turn_left()
-                self.get_logger().warn(f"Obstacle detected in front moving left: {elapsed_time}")
-            elif elapsed_time >= 50 and elapsed_time < 100:
-                self.turn_right()
-                self.get_logger().warn(f"Obstacle detected in front moving right: {elapsed_time}")
+            if elapsed_time < 25:
+                if left > right or self.left_flag is True: # more space on left
+                    self.get_logger().warn(f"Obstacle detected in front moving left: {elapsed_time}")
+                    self.turn_left()
+                    self.left_flag = True
+                else:
+                    self.turn_left()
+                    self.left_flag = False
+            elif elapsed_time >= 25 and elapsed_time < 50:
+                if right > left or self.left_flag is False:
+                    self.turn_right()
+                    self.get_logger().warn(f"Obstacle detected in front moving right: {elapsed_time}")
+                    self.left_flag = False
+                else:
+                    self.turn_right()
+                    self.left_flag = True
             else:
                 self.start_time = time.time() # reset the timer
-
         else:
             # No obstacles detected, move forward
             self.get_logger().info("No obstacles detected. Moving forward.")
             self.move_forward()
-
-#      # Wall-following logic
-#        if front < self.front_obstacle_threshold:
-#            # Obstacle detected in front, turn left
-#            self.get_logger().warn("Obstacle detected in front! Turning left.")
-#            self.turn_left()
-#        elif left < self.wall_distance:
-#            # Too close to the wall on the left, turn right slightly
-#            self.get_logger().info("Too close to the wall on the left. Adjusting right.")
-#            self.adjust_right()
-#        elif right < self.wall_distance:
-#            # Too close to the wall on the right, turn left slightly
-#            self.get_logger().info("Too close to the wall on the right. Adjusting left.")
-#            self.adjust_left()
-#        elif left > self.wall_distance and left < self.front_obstacle_threshold:
-#            # Too far from the wall on the left, turn left slightly
-#            self.get_logger().info("Too far from the wall on the left. Adjusting left.")
-#            self.adjust_left()
-#        elif right > self.wall_distance and right < self.front_obstacle_threshold:
-#            # Too far from the wall on the right, turn right slightly
-#            self.get_logger().info("Too far from the wall on the right. Adjusting right.")
-#            self.adjust_right()
-#        else:
-#            # Maintain distance and move forward
-#            self.get_logger().info("No wall detected. Moving forward.")
-#            self.move_forward()
 
     def stop_robot(self):
         # Publish zero velocity to stop the robot
@@ -120,7 +139,7 @@ class WallFollowingNode(Node):
     def turn_left(self):
         # Turn left by setting a positive angular velocity
         self.current_twist.linear.x = 0.0
-        self.current_twist.angular.z = 0.5  # Turn left at 0.5 rad/s
+        self.current_twist.angular.z = -0.5  # Turn left at 0.5 rad/s
 
     def adjust_left(self):
         # Slightly adjust left to maintain distance from the wall
@@ -139,7 +158,7 @@ class WallFollowingNode(Node):
     def turn_right(self):
         # Turn right by setting a negative angular velocity
         self.current_twist.linear.x = 0.0
-        self.current_twist.angular.z = -0.5
+        self.current_twist.angular.z = 0.5
 
     def publish_velocity(self):
         # Publish the current velocity command
