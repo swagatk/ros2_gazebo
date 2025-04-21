@@ -57,6 +57,21 @@
                     <normal>0 0 1</normal>
                     </plane>
                 </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>100</mu>
+                        <mu2>50</mu2>
+                      </ode>
+                      <torsional>
+                        <ode/>
+                      </torsional>
+                    </friction>
+                    <contact>
+                      <ode/>
+                    </contact>
+                    <bounce/>
+                  </surface>
                 </collision>
                 <visual name="visual">
                 <geometry>
@@ -73,14 +88,20 @@
                 </visual>
             </link>
         </model>
+        <gravity>0 0 -9.8</gravity>
+        <physics type='ode'>
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1</real_time_factor>
+            <real_time_update_rate>1000</real_time_update_rate>
+        </physics>
         <model name='wall_1'>
             <static>true</static>
-            <pose>10 0 0 0 0 0</pose><!--pose relative to the world-->
+            <pose>5 0 0 0 0 0</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -93,7 +114,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>
@@ -101,12 +122,12 @@
         </model>
         <model name='wall_2'>
             <static>true</static>
-            <pose>-10 0 0 0 0 0</pose><!--pose relative to the world-->
+            <pose>-5 0 0 0 0 0</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -119,7 +140,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>
@@ -127,12 +148,12 @@
         </model>
         <model name='wall_3'>
             <static>true</static>
-            <pose>0 10 0 0 0 1.57</pose><!--pose relative to the world-->
+            <pose>0 5 0 0 0 1.57</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -145,7 +166,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>
@@ -153,12 +174,12 @@
         </model>
         <model name='wall_4'>
             <static>true</static>
-            <pose>0 -10 0 0 0 1.57</pose><!--pose relative to the world-->
+            <pose>0 -5 0 0 0 1.57</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -171,7 +192,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 20.0 3.0</size>
+                    <size>0.5 10.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>
@@ -179,12 +200,12 @@
         </model>
         <model name='wall_5'>
             <static>true</static>
-            <pose>-5 -5 0 0 0 0</pose><!--pose relative to the world-->
+            <pose>-2.0 -2.5 0 0 0 0</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 10.0 3.0</size>
+                    <size>0.5 5.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -197,7 +218,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 10.0 3.0</size>
+                    <size>0.5 5.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>
@@ -205,12 +226,12 @@
         </model>
         <model name='wall_6'>
             <static>true</static>
-            <pose>5 5 0 0 0 0</pose><!--pose relative to the world-->
+            <pose>2.0 2.5 0 0 0 0</pose><!--pose relative to the world-->
             <link name='box'>
                 <visual name='visual'>
                 <geometry>
                     <box>
-                    <size>0.5 10.0 3.0</size>
+                    <size>0.5 5.0 2.0</size>
                     </box>
                 </geometry>
                 <!--let's add color to our link-->
@@ -223,7 +244,7 @@
                 <collision name='collision'>
                 <geometry>
                     <box>
-                    <size>0.5 10.0 3.0</size>
+                    <size>0.5 5.0 2.0</size>
                     </box>
                 </geometry>
                 </collision>

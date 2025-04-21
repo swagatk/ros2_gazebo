@@ -75,7 +75,7 @@ ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true param_files:=/h
 ## Move the robot 
 Run the following node in a separate terminal to allow moving the robot using keyboard:
 ```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard cmd_vel:=/demo/cmd_vel
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/demo/cmd_vel
 ```
 
 ## RVIZ visualization

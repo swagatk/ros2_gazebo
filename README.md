@@ -11,4 +11,6 @@ ROS2 Gazebo experiments
 - folder: `gz_robot`
 
 ## Mapping & SLAM toolbox
+- In this package, we build a basic robot and use `slam_toolbox` and `nav2` package to build map of
+a given custom environment. 
 - folder: `my_robot_sim`
