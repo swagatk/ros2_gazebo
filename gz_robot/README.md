@@ -11,10 +11,24 @@
 ```
 sudo apt install ros-jazzy-gz-launch-vendor* -y
 ```
+Update ROS path
+```
+source ~/opt/ros/jazzy/setup.bash
+```
 
 ## Avoid obstacle
 ```
 gz launch avoid_obstacle.gzlaunch
+```
+
+Now click on the play button (on bottom left of gazebo screen) to see the robot moving as shown in the image below
+
+![Gazebo](./images/Gazebo_screen.png)
+
+## Separate world and robot files
+It is also possible to have two different sdf files - one for the robot (`./description/robot.sdf`) and another for the world (`./worlds/custom_world.sdf`).  The corresponding launch command is as follows:
+```
+gz launch robot_world.gzlaunch
 ```
 
 ## Launch Gazebo using ROS2 and use `ros_gz_bridge` to access gazebo topics
@@ -36,5 +50,4 @@ following command:
 ```
 ros2 topic echo /lidar
 ```
-## Notes
-Press the play button (on button left part of Gazebo window) to see the robot moving
+

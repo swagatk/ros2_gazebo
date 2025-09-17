@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<gz version="1.0">
+  <executable name="gazebo_server">
+	  <command>gz sim -r ./worlds/custom_world.sdf</command>
+  </executable>
+
+  <executable name="spawn_robot">
+    <command>./spawn_robot.sh</command>
+  </executable>
+  <executable name="lidar_node">
+    <command>./lidar_node/build/lidar_node</command>
+  </executable>
+</gz>
