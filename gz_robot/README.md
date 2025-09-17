@@ -23,7 +23,7 @@ gz launch avoid_obstacle.gzlaunch
 
 Now click on the play button (on bottom left of gazebo screen) to see the robot moving as shown in the image below
 
-![Gazebo](./images/Gazebo_screen.png)
+![Gazebo](./images/gazebo_robot.png)
 
 ## Separate world and robot files
 It is also possible to have two different sdf files - one for the robot (`./description/robot.sdf`) and another for the world (`./worlds/custom_world.sdf`).  The corresponding launch command is as follows:
