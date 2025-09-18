@@ -15,7 +15,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_launch_path),
             launch_arguments={
-                'gz_args': 'robot_world_2.sdf',  # Replace with your own world file
+                'gz_args': 'robot_world.sdf',  # Replace with your own world file
                 'on_exit_shutdown': 'True'
             }.items(),
         ),
