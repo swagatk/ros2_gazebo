@@ -79,7 +79,7 @@ Now make following changes to the RVIZ window:
 If `MarkerArray` is not available on the `Displays` pane, you can click on the `Add` button at the bottom to add.
 
 
-Run the following command in another window to see the robot move to the goal state. Please read the messages on the console to see the stages of operation. Click on `Next` `button RvizVisualToolGui` to move from planning to execution. 
+Run the following command in another window to see the robot move to the goal state. Please read the messages on the console to see the stages of operation. Click on `Next` `button on RvizVisualToolGui` pane to move from one stage to another.  
 
 ```
 ros2 run hello_moveit hello_moveit
