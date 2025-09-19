@@ -57,7 +57,7 @@ cd ~/moveit_ws/src
 Move the required folder inside `~/moveit_ws/src` as shown below
 
 ```
-cp -r ~/ros2_gazebo/moveit_demo ./
+cp -r ~/ros2_gazebo/moveit_demo/hello_moveit/ ./
 ```
 Build the package
 
