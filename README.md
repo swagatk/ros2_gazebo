@@ -14,3 +14,9 @@ ROS2 Gazebo experiments
 - In this package, we build a basic robot and use `slam_toolbox` and `nav2` package to build map of
 a given custom environment. 
 - folder: `my_robot_sim`
+
+## MoveIt2 Demo files
+- folder: `moveit_demo`
+- This folder contains codes for running moveit2 demo with Panda robot arm on ROS2 Jazzy
+
+
