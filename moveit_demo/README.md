@@ -84,13 +84,22 @@ Run the following command in another window to see the robot move to the goal st
 ```
 ros2 run hello_moveit hello_moveit
 ```
-## Images
 
 | Planning | Execution |
 |------ | ---- |
 |![plannning](./images/planning.png) |![execution](./images/execution.png)|
 
 ![Console](./images/console.png)
+
+## Obstacle Avoidance
+
+First launch panda robot arm demo from one terminal and carry the changes on the `RVIZ` window as discussed above. Then run the following command on a new terminal
+```
+ros2 run hello_moveit hello_moveit_obs
+```
+As usual, click on `Next` button on `RvizVisualizeToolsGui` pane to move from planning to execution stage. 
+
+![obstacle](./images/obstacle.png)
 
 
  
