@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Setup Script for ROS 2 Jazzy, Gazebo Harmonic, and TurtleBot3 Simulation
-# Target OS: Ubuntu 24.04 (Noble Numbat) on WSL2
+# Optimized for Ubuntu 24.04 on WSL2 (Sanitized Windows PATH)
 # ==============================================================================
 
 set -e # Exit immediately if a command exits with a non-zero status
+
+echo "=== [0/6] Sanitizing PATH for WSL Environment ==="
+# Strip Windows /mnt/ paths from PATH to prevent CMake from discovering Windows libraries (e.g., Anaconda)
+export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '^/mnt/' | tr '\n' ':' | sed 's/:$//')
 
 echo "=== [1/6] Updating System & Installing Base Utilities ==="
 sudo apt update && sudo apt upgrade -y
@@ -37,7 +41,10 @@ sudo apt install -y \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
     ros-jazzy-nav2-route \
-    python3-colcon-common-extensions
+    python3-colcon-common-extensions \
+    libprotobuf-dev \
+    protobuf-compiler \
+    libabsl-dev
 
 echo "=== [5/6] Downloading & Building TurtleBot3 Workspace ==="
 mkdir -p ~/turtlebot3_ws/src
@@ -57,14 +64,17 @@ if [ ! -d "turtlebot3_simulations" ]; then
     git clone -b jazzy https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
 fi
 
-# Source ROS 2 base and build workspace
+# Clean prior contaminated build/install directories if they exist
 cd ~/turtlebot3_ws
-# Source under bash environment for colcon
+rm -rf build/ install/ log/
+
+# Source ROS 2 Jazzy
 source /opt/ros/jazzy/setup.bash
-colcon build --symlink-install
+
+# Build workspace while instructing CMake to completely ignore /mnt/c
+colcon build --symlink-install --cmake-args -DCMAKE_IGNORE_PREFIX_PATH="/mnt/c"
 
 echo "=== [6/6] Configuring Shell Environment (~/.bashrc) ==="
-# Function to safely append environment settings if not already present
 append_bashrc() {
     local line="$1"
     if ! grep -Fxq "$line" ~/.bashrc; then
@@ -79,5 +89,5 @@ append_bashrc "export TURTLEBOT3_MODEL=burger"
 
 echo "=========================================================="
 echo "Installation complete!"
-echo "Please reload your terminal by running: source ~/.bashrc"
+echo "Run 'source ~/.bashrc' to start using ROS 2 and TurtleBot3."
 echo "=========================================================="
