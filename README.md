@@ -20,3 +20,17 @@ a given custom environment.
 - This folder contains codes for running moveit2 demo with Panda robot arm on ROS2 Jazzy
 
 
+## Utlities
+- folder: `scripts`
+
+### Converting ROS2 graph into PDF
+
+- file: `ros2_graph_export.py`: Converts ROS2 graph into a pdf file without using "rqt_graph" which is quite resource intensive.
+- You should install `graphviz`: 
+```
+sudo apt install graphviz
+python3 ./ros2_graph_export.py
+```
+
+### Installing ROS2 Jazzy on Ubuntu 24.04 WSL
+- file: `install_ros2_tb3.sh`
